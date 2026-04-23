@@ -1,0 +1,54 @@
+{
+  "name": "OVERLOAD — Progressive Overload Tracker",
+  "short_name": "OVERLOAD",
+  "description": "Tactical telemetry for progressive overload. PPL 6-day split.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0A0A0A",
+  "theme_color": "#0A0A0A",
+  "categories": ["fitness", "health", "productivity"],
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "PUSH A",
+      "short_name": "PUSH A",
+      "url": "/workout/PUSH_A"
+    },
+    {
+      "name": "PULL A",
+      "short_name": "PULL A",
+      "url": "/workout/PULL_A"
+    },
+    {
+      "name": "LEGS A",
+      "short_name": "LEGS A",
+      "url": "/workout/LEGS_A"
+    },
+    {
+      "name": "HISTORY",
+      "short_name": "HISTORY",
+      "url": "/history"
+    }
+  ]
+}

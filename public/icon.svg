@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+  <rect width="512" height="512" fill="#0A0A0A"/>
+  <rect x="31" y="31" width="450" height="450" fill="none" stroke="#EAEAEA" stroke-width="7"/>
+  <line x1="31" y1="130" x2="481" y2="130" stroke="#EAEAEA" stroke-width="1" opacity="0.4"/>
+  <line x1="31" y1="400" x2="481" y2="400" stroke="#EAEAEA" stroke-width="1" opacity="0.4"/>
+  <line x1="391" y1="112" x2="297.4" y2="337" stroke="#FF3300" stroke-width="36" stroke-linecap="butt"/>
+  <text x="58" y="175" font-family="monospace" font-weight="700" font-size="32" fill="#EAEAEA" letter-spacing="2">UNIT/OL</text>
+  <text x="58" y="328" font-family="Arial Black, sans-serif" font-weight="900" font-size="153" fill="#EAEAEA" letter-spacing="-2">OL</text>
+  <rect x="58" y="362" width="171" height="23" fill="#FF3300"/>
+  <text x="454" y="454" font-family="monospace" font-weight="700" font-size="32" fill="#EAEAEA" letter-spacing="2" text-anchor="end">REV 1.0</text>
+</svg>

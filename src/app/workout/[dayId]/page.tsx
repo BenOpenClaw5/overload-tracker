@@ -3,19 +3,28 @@
 import { notFound, useParams, useRouter } from "next/navigation";
 import { useMemo, useState } from "react";
 import { ExerciseBlock } from "@/components/ExerciseBlock";
+import { EditWorkout } from "@/components/EditWorkout";
 import { TopBar } from "@/components/TopBar";
 import { getDayById } from "@/lib/exercises";
 import { newSessionId, todayISODate } from "@/lib/dates";
 import { upsertSession } from "@/lib/storage";
-import { useSessions } from "@/lib/useSettings";
-import type { DayCode, LoggedSet, Session } from "@/lib/types";
-import { Check } from "lucide-react";
+import { useCustomizations, useSessions } from "@/lib/useSettings";
+import type { DayCode, Exercise, LoggedSet, Session } from "@/lib/types";
+import { Check, Pencil } from "lucide-react";
 
 export default function WorkoutPage() {
   const params = useParams<{ dayId: string }>();
   const router = useRouter();
   const day = getDayById(params.dayId);
   const sessions = useSessions();
+  const customizations = useCustomizations();
+  const [editing, setEditing] = useState(false);
+
+  const effectiveExercises: Exercise[] = useMemo(() => {
+    if (!day) return [];
+    const custom = customizations[day.id as DayCode];
+    return custom && custom.exercises.length ? custom.exercises : day.exercises;
+  }, [day, customizations]);
 
   const persistedSession = useMemo(() => {
     if (!day) return null;
@@ -29,7 +38,6 @@ export default function WorkoutPage() {
 
   const [draftId] = useState(() => newSessionId());
   const [draftStartedAt] = useState(() => Date.now());
-  const [persisted, setPersisted] = useState(false);
 
   const session: Session | null = useMemo(() => {
     if (!day) return null;
@@ -44,8 +52,8 @@ export default function WorkoutPage() {
   }, [day, persistedSession, draftId, draftStartedAt]);
 
   const totalSetsPlanned = useMemo(
-    () => (day ? day.exercises.reduce((a, e) => a + e.sets, 0) : 0),
-    [day],
+    () => effectiveExercises.reduce((a, e) => a + e.sets, 0),
+    [effectiveExercises],
   );
 
   const totalSetsLogged = useMemo(() => {
@@ -67,7 +75,6 @@ export default function WorkoutPage() {
       entries,
     };
     upsertSession(next);
-    if (!persisted) setPersisted(true);
   };
 
   const finish = () => {
@@ -87,32 +94,42 @@ export default function WorkoutPage() {
             </span>
             <span>{todayISODate()}</span>
           </div>
-          <h1
-            className="display-big mt-2"
-            style={{ fontSize: "clamp(2.5rem, 11vw, 5.5rem)" }}
-          >
-            {day.title}
-          </h1>
+          <div className="grid grid-cols-[1fr_auto] items-end gap-3 mt-2">
+            <h1
+              className="display-big"
+              style={{ fontSize: "clamp(2.5rem, 11vw, 5.5rem)" }}
+            >
+              {day.title}
+            </h1>
+            <button
+              type="button"
+              onClick={() => setEditing(true)}
+              className="btn btn-ghost !min-h-[40px] !px-3"
+              aria-label="Edit workout"
+            >
+              <Pencil size={14} strokeWidth={2.5} /> EDIT
+            </button>
+          </div>
           <div className="mt-2 mono-micro">{day.focus}</div>
           <div className="mt-3 grid grid-cols-3 gap-0 border border-[var(--border)]">
-            <Stat label="LIFTS" value={day.exercises.length} />
+            <Stat label="LIFTS" value={effectiveExercises.length} />
             <Stat label="SETS" value={`${totalSetsLogged}/${totalSetsPlanned}`} />
             <Stat label="REST" value="2:30" />
           </div>
         </section>
 
         <div>
-          {day.exercises.map((ex, i) => (
+          {effectiveExercises.map((ex, i) => (
             <div key={ex.id}>
               <div className="px-3 mono-micro text-[var(--muted)] pt-4 flex items-center justify-between">
                 <span>
                   LIFT {String(i + 1).padStart(2, "0")} /{" "}
-                  {String(day.exercises.length).padStart(2, "0")}
+                  {String(effectiveExercises.length).padStart(2, "0")}
                 </span>
                 {ex.priority ? (
                   <span className="text-[var(--accent)]">★ PRIORITY</span>
                 ) : (
-                  <span>·</span>
+                  <span className="text-[var(--info)]">●</span>
                 )}
               </div>
               <ExerciseBlock
@@ -147,6 +164,14 @@ export default function WorkoutPage() {
           </button>
         </div>
       </div>
+
+      {editing ? (
+        <EditWorkout
+          dayId={day.id as DayCode}
+          exercises={effectiveExercises}
+          onClose={() => setEditing(false)}
+        />
+      ) : null}
     </>
   );
 }

@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { ArrowLeft, History, Settings as SettingsIcon } from "lucide-react";
 import { usePathname } from "next/navigation";
+import { Logo } from "./Logo";
 
 export function TopBar() {
   const pathname = usePathname();
@@ -22,12 +23,8 @@ export function TopBar() {
               <span className="mono-tag">HOME</span>
             </Link>
           ) : (
-            <Link
-              href="/"
-              className="font-black tracking-[-0.04em] uppercase text-[var(--fg)]"
-              style={{ fontFamily: "var(--font-display)", fontSize: "1.1rem" }}
-            >
-              OVER<span className="text-[var(--accent)]">/</span>LOAD
+            <Link href="/" className="text-[var(--fg)] flex items-center gap-2">
+              <Logo size={18} />
             </Link>
           )}
         </div>

@@ -147,18 +147,51 @@ export function ExerciseBlock({
           />
         </div>
         <div className="mono-micro">
-          {lastTop ? (
-            <>
-              LAST {lastTop.set.weight}×{lastTop.set.reps}{" "}
-              <span className="text-[var(--muted)]">
-                · e{fmt1RM(epley1RM(lastTop.set.weight, lastTop.set.reps))}
-              </span>
-            </>
+          {completedCount > 0 ? (
+            <span className="text-[var(--info)]">{completedCount} LOGGED</span>
           ) : (
-            <>NO PRIOR DATA</>
+            <span>READY</span>
           )}
         </div>
       </div>
+
+      {lastTop ? (
+        <div className="mx-3 my-2 grid grid-cols-[1fr_auto] gap-3 border border-[var(--border)] bg-[var(--panel)]">
+          <div className="p-3 border-r border-[var(--border)]">
+            <div className="mono-micro">&gt;&gt; BEAT THIS</div>
+            <div className="mt-1 flex items-baseline gap-2">
+              <span
+                className="font-black text-[var(--fg)] tabular-nums"
+                style={{ fontSize: "clamp(1.4rem, 6vw, 2rem)", letterSpacing: "-0.02em" }}
+              >
+                {lastTop.set.weight}
+                <span className="text-[var(--muted)] mx-1">×</span>
+                {lastTop.set.reps}
+              </span>
+              <span className="mono-micro text-[var(--info)] tabular-nums">
+                e{fmt1RM(epley1RM(lastTop.set.weight, lastTop.set.reps))}
+              </span>
+            </div>
+            <div className="mono-micro mt-0.5">LAST · {lastTop.date.replaceAll("-", ".")}</div>
+          </div>
+          <div className="p-3 flex flex-col justify-center items-end">
+            <div className="mono-micro text-[var(--accent)]">TARGET</div>
+            <div className="mono-tag text-[var(--accent)] text-right leading-tight mt-1">
+              +1 REP
+              <br />
+              OR +{Math.max(2.5, Math.round(lastTop.set.weight * 0.025 * 2) / 2)} LB
+            </div>
+          </div>
+        </div>
+      ) : (
+        <div className="mx-3 my-2 px-3 py-3 border border-[var(--border)] bg-[var(--panel)]">
+          <div className="mono-micro text-[var(--info)]">&gt;&gt; FIRST LOG</div>
+          <div className="mono-micro mt-1 text-[var(--fg-dim)]">
+            PICK A WEIGHT THAT HITS FAILURE NEAR THE TOP OF YOUR REP RANGE. EVERY SET
+            AFTER THIS IS PROGRESSIVE OVERLOAD.
+          </div>
+        </div>
+      )}
 
       <ul className="px-0">
         {drafts.map((d, i) => (

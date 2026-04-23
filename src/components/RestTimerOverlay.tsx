@@ -47,8 +47,10 @@ export function RestTimerOverlay() {
       >
         <div
           className={
-            "pointer-events-auto border-t-2 border-[var(--fg)] bg-[var(--bg)] " +
-            (done ? "overload-done-flash" : "")
+            "pointer-events-auto border-t-2 bg-[var(--bg)] " +
+            (done
+              ? "overload-done-flash border-[var(--accent)]"
+              : "border-[var(--info)]")
           }
           style={{ paddingBottom: "env(safe-area-inset-bottom)" }}
         >
@@ -56,13 +58,13 @@ export function RestTimerOverlay() {
             <div className="flex items-center gap-2 min-w-0">
               <span
                 className={
-                  "inline-block w-2 h-2 " +
-                  (done ? "bg-[var(--accent)] overload-pulse" : "bg-[var(--term-green)] overload-pulse")
+                  "inline-block w-2 h-2 overload-pulse " +
+                  (done ? "bg-[var(--accent)]" : "bg-[var(--info)]")
                 }
                 aria-hidden
               />
               <span className="font-mono text-[11px] tracking-[0.18em] uppercase text-[var(--muted)] truncate">
-                {done ? "[ REST COMPLETE ]" : "[ REST / 2:30 PROTOCOL ]"}
+                {done ? "[ REST COMPLETE ]" : "[ REST / LIVE ]"}
                 {label ? ` · ${label}` : ""}
               </span>
             </div>
@@ -92,7 +94,10 @@ export function RestTimerOverlay() {
           <div className="px-4 pt-3">
             <div className="h-1.5 w-full bg-[var(--panel)] relative overflow-hidden">
               <motion.div
-                className="absolute inset-y-0 left-0 bg-[var(--accent)]"
+                className={
+                  "absolute inset-y-0 left-0 " +
+                  (done ? "bg-[var(--accent)]" : "bg-[var(--info)]")
+                }
                 initial={false}
                 animate={{ width: done ? "0%" : `${progress * 100}%` }}
                 transition={{ ease: "linear", duration: 0.2 }}

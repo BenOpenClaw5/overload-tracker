@@ -51,8 +51,8 @@ export default function HomePage() {
             <span className="text-[var(--info)]">REV 2.0</span>
           </div>
           <div className="mt-2 grid grid-cols-[1fr_auto] items-end gap-3">
-            <h1 className="display-massive">
-              OVER<span className="text-[var(--accent)]">/</span>
+            <h1 className="display-massive leading-[0.85]">
+              OVER
               <br />
               LOAD
             </h1>
@@ -67,6 +67,7 @@ export default function HomePage() {
               </div>
             </div>
           </div>
+          <div className="mt-3 h-1 w-16 bg-[var(--accent)]" />
           <div className="mt-4 grid grid-cols-[1fr_auto_1fr] items-center gap-3 mono-micro">
             <span>{sessions.length.toString().padStart(4, "0")} SESSIONS</span>
             <span className="inline-block w-3 h-[1px] bg-[var(--info)]" />

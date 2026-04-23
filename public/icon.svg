@@ -2,33 +2,11 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
   <rect width="512" height="512" fill="#070709"/>
 
-  <!-- outer frame -->
-  <rect x="36" y="36" width="440" height="440" fill="none" stroke="#F2F2F2" stroke-width="7"/>
+  <!-- thin blue baseline running full width of the group -->
+  <rect x="106" y="418" width="301" height="7" fill="#2E7BFF"/>
 
-  <!-- top meta bar -->
-  <line x1="36" y1="102" x2="476" y2="102" stroke="#F2F2F2" stroke-width="1" opacity="0.35"/>
-  <text x="58" y="84" font-family="JetBrains Mono, Menlo, monospace" font-weight="700" font-size="26" fill="#F2F2F2" letter-spacing="4" opacity="0.75">UNIT / OL</text>
-  <text x="454" y="84" font-family="JetBrains Mono, Menlo, monospace" font-weight="700" font-size="26" fill="#2E7BFF" letter-spacing="4" text-anchor="end">REV 2.0</text>
-
-  <!-- baseline -->
-  <line x1="62" y1="383" x2="450" y2="383" stroke="#2E7BFF" stroke-width="4"/>
-
-  <!-- three ascending bars -->
-  <rect x="76" y="247" width="84" height="132" fill="#2E7BFF"/>
-  <rect x="186" y="159" width="84" height="220" fill="#F2F2F2"/>
-  <rect x="296" y="62" width="84" height="317" fill="#FF6A00"/>
-
-  <!-- upward diagonal cue (progressive overload arrow) -->
-  <line x1="118" y1="238" x2="338" y2="53" stroke="#FF6A00" stroke-width="4" opacity="0.9"/>
-
-  <!-- OL wordmark (right side) -->
-  <text x="445" y="256" font-family="Archivo Black, Arial Black, sans-serif" font-weight="900" font-size="88" fill="#F2F2F2" letter-spacing="-4" text-anchor="end">OVER</text>
-  <text x="445" y="340" font-family="Archivo Black, Arial Black, sans-serif" font-weight="900" font-size="88" fill="#F2F2F2" letter-spacing="-4" text-anchor="end">LOAD</text>
-  <!-- orange slash marker next to OVER -->
-  <rect x="234" y="208" width="11" height="66" fill="#FF6A00" transform="rotate(20 234 208)"/>
-
-  <!-- footer divider + label -->
-  <line x1="36" y1="432" x2="476" y2="432" stroke="#F2F2F2" stroke-width="1" opacity="0.35"/>
-  <text x="58" y="461" font-family="JetBrains Mono, Menlo, monospace" font-weight="700" font-size="24" fill="#F2F2F2" letter-spacing="3" opacity="0.75">PROGRESSIVE OVERLOAD</text>
-  <rect x="406" y="447" width="44" height="7" fill="#FF6A00"/>
+  <!-- bars -->
+  <rect x="106" y="285" width="81" height="133" fill="#2E7BFF"/>
+  <rect x="216" y="203" width="81" height="215" fill="#F2F2F2"/>
+  <rect x="326" y="102" width="81" height="316" fill="#FF6A00"/>
 </svg>

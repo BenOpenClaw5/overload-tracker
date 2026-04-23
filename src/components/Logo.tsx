@@ -5,25 +5,24 @@
  *   - mark: the bar-chart icon alone (3 ascending bars in blue → white → orange)
  *   - wordmark: type-only
  *   - full: mark + wordmark horizontal
+ *
+ * Geometry mirrors the PWA icon in scripts/gen-icons.mjs.
  */
 
-export function LogoMark({
-  size = 24,
-  withBorder = true,
-}: {
-  size?: number;
-  withBorder?: boolean;
-}) {
+export function LogoMark({ size = 24 }: { size?: number }) {
   const s = size;
-  const pad = 2;
+  const pad = Math.round(s * 0.08);
   const inner = s - pad * 2;
-  const barW = Math.max(2, Math.round(inner * 0.18));
+  const barW = Math.max(2, Math.round(inner * 0.22));
   const gap = Math.max(1, Math.round(inner * 0.08));
-  const baseY = pad + inner - Math.round(inner * 0.14);
-  const b1H = Math.round(inner * 0.3);
-  const b2H = Math.round(inner * 0.5);
-  const b3H = Math.round(inner * 0.82);
-  const xStart = pad + Math.round(inner * 0.1);
+  const groupW = barW * 3 + gap * 2;
+  const startX = pad + Math.round((inner - groupW) / 2);
+  const baseY = pad + Math.round(inner * 0.94);
+  const maxH = Math.round(inner * 0.86);
+  const h1 = Math.round(maxH * 0.42);
+  const h2 = Math.round(maxH * 0.68);
+  const h3 = maxH;
+  const baselineW = Math.max(1, Math.round(inner * 0.04));
 
   return (
     <svg
@@ -34,61 +33,33 @@ export function LogoMark({
       aria-hidden
       style={{ display: "inline-block", verticalAlign: "middle" }}
     >
-      {withBorder ? (
-        <rect
-          x={0.5}
-          y={0.5}
-          width={s - 1}
-          height={s - 1}
-          fill="none"
-          stroke="currentColor"
-          opacity={0.35}
-        />
-      ) : null}
-      {/* baseline */}
-      <line
-        x1={pad}
-        y1={baseY + 2}
-        x2={s - pad}
-        y2={baseY + 2}
-        stroke="var(--info)"
-        strokeWidth="1"
-      />
-      {/* bar 1 — info blue */}
       <rect
-        x={xStart}
-        y={baseY - b1H}
-        width={barW}
-        height={b1H}
+        x={startX}
+        y={baseY}
+        width={groupW}
+        height={baselineW}
         fill="var(--info)"
       />
-      {/* bar 2 — white */}
+      <rect x={startX} y={baseY - h1} width={barW} height={h1} fill="var(--info)" />
       <rect
-        x={xStart + barW + gap}
-        y={baseY - b2H}
+        x={startX + barW + gap}
+        y={baseY - h2}
         width={barW}
-        height={b2H}
+        height={h2}
         fill="var(--fg)"
       />
-      {/* bar 3 — accent orange (tallest = progressive overload) */}
       <rect
-        x={xStart + (barW + gap) * 2}
-        y={baseY - b3H}
+        x={startX + (barW + gap) * 2}
+        y={baseY - h3}
         width={barW}
-        height={b3H}
+        height={h3}
         fill="var(--accent)"
       />
     </svg>
   );
 }
 
-export function LogoWordmark({
-  size = 20,
-  compact = false,
-}: {
-  size?: number;
-  compact?: boolean;
-}) {
+export function LogoWordmark({ size = 20 }: { size?: number }) {
   return (
     <span
       className="inline-flex items-baseline font-black uppercase"
@@ -99,13 +70,7 @@ export function LogoWordmark({
         lineHeight: 1,
       }}
     >
-      <span>OVER</span>
-      <span
-        style={{ color: "var(--accent)", margin: compact ? "0 1px" : "0 2px" }}
-      >
-        /
-      </span>
-      <span>LOAD</span>
+      OVERLOAD
     </span>
   );
 }

@@ -78,6 +78,25 @@ export function deleteSession(id: string) {
   saveSessions(loadSessions().filter((s) => s.id !== id));
 }
 
+/**
+ * Remove sessions that have zero logged sets. Used as a one-shot cleanup for
+ * users who hit the prior bug where opening a workout template silently
+ * persisted an empty session.
+ */
+export function pruneEmptySessions(): number {
+  const all = loadSessions();
+  const cleaned = all.filter((s) => {
+    const total = Object.values(s.entries).reduce(
+      (sum, list) => sum + (list?.length ?? 0),
+      0,
+    );
+    return total > 0;
+  });
+  if (cleaned.length === all.length) return 0;
+  saveSessions(cleaned);
+  return all.length - cleaned.length;
+}
+
 function readSettings(): AppSettings {
   if (typeof window === "undefined") return DEFAULT_SETTINGS;
   try {

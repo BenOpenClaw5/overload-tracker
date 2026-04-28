@@ -7,7 +7,7 @@ import { EditWorkout } from "@/components/EditWorkout";
 import { TopBar } from "@/components/TopBar";
 import { getDayById } from "@/lib/exercises";
 import { newSessionId, todayISODate } from "@/lib/dates";
-import { upsertSession } from "@/lib/storage";
+import { deleteSession, upsertSession } from "@/lib/storage";
 import { useCustomizations, useSessions } from "@/lib/useSettings";
 import type { DayCode, Exercise, LoggedSet, Session } from "@/lib/types";
 import { Check, Pencil } from "lucide-react";
@@ -69,6 +69,15 @@ export default function WorkoutPage() {
     const entries = { ...prevSession.entries };
     if (sets.length === 0) delete entries[exerciseId];
     else entries[exerciseId] = sets;
+    const totalSets = Object.values(entries).reduce((a, l) => a + l.length, 0);
+
+    if (totalSets === 0) {
+      // Nothing logged. Don't create a session, and clean up any persisted
+      // session that's just been emptied out (e.g., user un-logged everything).
+      if (persistedSession) deleteSession(persistedSession.id);
+      return;
+    }
+
     const next: Session = {
       ...prevSession,
       id: persistedSession ? prevSession.id : draftId,
@@ -79,6 +88,16 @@ export default function WorkoutPage() {
 
   const finish = () => {
     const current = persistedSession ?? session;
+    const totalSets = Object.values(current.entries).reduce(
+      (a, l) => a + l.length,
+      0,
+    );
+    if (totalSets === 0) {
+      // No sets logged — bail without persisting. Clean up any stale draft.
+      if (persistedSession) deleteSession(persistedSession.id);
+      router.push("/");
+      return;
+    }
     upsertSession({ ...current, finishedAt: Date.now() });
     router.push("/history");
   };

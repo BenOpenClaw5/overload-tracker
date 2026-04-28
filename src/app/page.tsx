@@ -17,11 +17,18 @@ import {
 } from "@/lib/stats";
 import { DAY_COLORS } from "@/lib/dayColors";
 import type { DayCode } from "@/lib/types";
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
+import { pruneEmptySessions } from "@/lib/storage";
 
 export default function HomePage() {
   const sessions = useSessions();
   const customizations = useCustomizations();
+
+  // One-shot cleanup of any empty sessions left from prior versions of the
+  // workout page that auto-persisted on open.
+  useEffect(() => {
+    pruneEmptySessions();
+  }, []);
 
   const lastByDay = new Map<string, (typeof sessions)[number]>();
   for (const s of sessions) {
